@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>AyurPrakriti – Student Wellness</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="assets/styles.css" />
+	<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Ccircle cx='128' cy='128' r='120' fill='%231b5e20'/%3E%3Cpath fill='%23fff' d='M128 56c40 0 72 32 72 72s-32 72-72 72S56 168 56 128s32-72 72-72zm0 20c-28.7 0-52 23.3-52 52s23.3 52 52 52s52-23.3 52-52s-23.3-52-52-52z'/%3E%3C/svg%3E"/>
+</head>
+<body>
+	<header class="app-header">
+		<div class="brand">
+			<div class="logo">ॐ</div>
+			<div class="title">
+				<h1>AyurPrakriti</h1>
+				<p class="subtitle">Personalized wellness for students – Prakriti • Diet • Routine</p>
+			</div>
+		</div>
+		<nav class="tabs" role="tablist" aria-label="Primary">
+			<button class="tab active" data-tab="profile" aria-selected="true">Profile</button>
+			<button class="tab" data-tab="analysis">Prakriti Analysis</button>
+			<button class="tab" data-tab="diet">Diet Chart</button>
+			<button class="tab" data-tab="schedule">Daily Schedule</button>
+			<button class="tab" data-tab="followups">Follow-ups</button>
+			<button class="tab" data-tab="summary">Summary</button>
+			<button class="tab" data-tab="admin">Admin</button>
+		</nav>
+	</header>
+
+	<!-- Global Summary Bar (always visible) -->
+	<div id="summaryBar" class="summary-bar hidden" role="status" aria-live="polite">
+		<div class="inner">
+			<div class="left">
+				<strong id="summaryBarTitle">Not analyzed yet</strong>
+				<span id="summaryBarDesc" class="muted">Complete the Prakriti Analysis to see your personalized summary here.</span>
+			</div>
+			<div class="right">
+				<button class="btn" data-jump="analysis">Analyze</button>
+				<button class="btn" data-jump="diet">Diet</button>
+				<button class="btn" data-jump="schedule">Schedule</button>
+				<button class="btn" data-jump="followups">Follow-ups</button>
+				<button class="btn" data-jump="summary">Summary</button>
+			</div>
+		</div>
+	</div>
+
+	<section id="auth" class="panel active" aria-label="Login">
+		<div class="card">
+			<h2>Welcome to AyurPrakriti</h2>
+			<p class="muted">Please login to begin your assessment and get personalized guidance.</p>
+			<form id="loginForm" class="grid two">
+				<label>Full Name<input type="text" name="name" placeholder="Your name" required /></label>
+				<label>Email<input type="email" name="email" placeholder="you@example.com" required /></label>
+				<div class="actions full"><button class="btn primary" type="submit">Login & Start Assessment</button></div>
+			</form>
+		</div>
+	</section>
+
+	<main class="app-main hidden">
+		<!-- Profile -->
+		<section id="profile" class="panel active" aria-labelledby="Profile">
+			<div class="card">
+				<h2>Student Profile</h2>
+				<form id="profileForm" autocomplete="on">
+					<div class="grid two">
+						<label>Full Name<input type="text" name="fullName" required placeholder="Enter your name" /></label>
+						<label>Age<input type="number" min="5" max="100" name="age" required placeholder="18"/></label>
+						<label>Gender<select name="gender" required><option value="">Select</option><option>Female</option><option>Male</option><option>Other</option></select></label>
+						<label>Height (cm)<input type="number" name="heightCm" min="80" max="230" placeholder="165"/></label>
+						<label>Weight (kg)<input type="number" name="weightKg" min="20" max="200" placeholder="55"/></label>
+						<label>Contact Email<input type="email" name="email" placeholder="you@example.com"/></label>
+					</div>
+					<label>Health Notes<textarea name="notes" rows="3" placeholder="Allergies, goals, medical notes..."></textarea></label>
+					<div class="actions">
+						<button type="submit" class="btn primary">Save Profile</button>
+						<button type="button" id="loadExample" class="btn ghost">Load Example Data</button>
+					</div>
+				</form>
+			</div>
+		</section>
+
+		<!-- Prakriti Analysis -->
+		<section id="analysis" class="panel" aria-labelledby="Prakriti Analysis">
+			<div class="card">
+				<h2>Prakriti Analysis</h2>
+				<p class="muted">Answer based on your usual, natural tendencies. The system will suggest your dominant dosha(s).</p>
+				<form id="analysisForm">
+					<div class="q-group">
+						<h3>Physical Traits</h3>
+						<label>Skin Type
+							<select name="skin">
+								<option value="balanced">Balanced</option>
+								<option value="dry">Dry</option>
+								<option value="oily">Oily</option>
+							</select>
+						</label>
+						<label>Body Build
+							<select name="body">
+								<option value="slim">Slim / Thin</option>
+								<option value="muscular">Muscular / Medium</option>
+								<option value="heavy">Heavier</option>
+							</select>
+						</label>
+						<label>Hair Type
+							<select name="hair">
+								<option value="dry">Dry / Thin</option>
+								<option value="oily">Oily / Thinning</option>
+								<option value="thick">Thick / Oily</option>
+							</select>
+						</label>
+						<label>Eyes
+							<select name="eyes">
+								<option value="small">Small / Dry</option>
+								<option value="medium">Medium / Bright</option>
+								<option value="large">Large / Calm</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="q-group">
+						<h3>Mental & Emotional</h3>
+						<label>Mindset
+							<select name="mindset">
+								<option value="calm">Calm</option>
+								<option value="intense">Intense</option>
+								<option value="restless">Restless</option>
+							</select>
+						</label>
+						<label>Memory
+							<select name="memory">
+								<option value="forgetful">Forgetful</option>
+								<option value="sharp">Sharp</option>
+								<option value="slowlong">Slow but long-term</option>
+							</select>
+						</label>
+						<label>Emotions
+							<select name="emotions">
+								<option value="content">Content</option>
+								<option value="angry">Angry / Short-tempered</option>
+								<option value="anxious">Anxious</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="q-group">
+						<h3>Habits & Preferences</h3>
+						<label>Diet Preference
+							<select name="dietpref">
+								<option value="hotspicy">Hot & Spicy</option>
+								<option value="coldspicy">Cold & Spicy</option>
+								<option value="lightSweet">Light & Sweet</option>
+							</select>
+						</label>
+						<label>Sleep Pattern
+							<select name="sleep">
+								<option value="deep">Deep</option>
+								<option value="moderate">Moderate</option>
+								<option value="light">Light</option>
+							</select>
+						</label>
+						<label>Energy Level
+							<select name="energy">
+								<option value="balanced">Balanced</option>
+								<option value="high">High bursts</option>
+								<option value="variable">Variable</option>
+							</select>
+						</label>
+						<label>Weather Preference
+							<select name="weather">
+								<option value="cool">Cool</option>
+								<option value="warm">Warm & Dry</option>
+								<option value="hot">Hot</option>
+							</select>
+						</label>
+						<label>Stress Response
+							<select name="stress">
+								<option value="calm">Calm</option>
+								<option value="irritable">Irritable</option>
+								<option value="anxious">Anxious</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="actions">
+						<button type="submit" class="btn primary">Analyze Prakriti</button>
+						<button type="button" id="loadYourAnswers" class="btn ghost">Load Example Answers</button>
+					</div>
+				</form>
+
+				<div id="analysisResult" class="result hidden">
+					<h3>Your Constitution</h3>
+					<p class="dosha"></p>
+					<p class="explain"></p>
+					<div id="wellnessSuggestions" class="grid three"></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Diet Chart -->
+		<section id="diet" class="panel" aria-labelledby="Diet Chart">
+			<div class="card">
+				<h2>Diet Chart</h2>
+				<p class="muted">Personalized food suggestions and full meal plan based on your dominant dosha.</p>
+				<div id="dietContent" class="grid three"></div>
+			</div>
+		</section>
+
+		<!-- Daily Schedule -->
+		<section id="schedule" class="panel" aria-labelledby="Daily Schedule">
+			<div class="card">
+				<h2>Daily Schedule</h2>
+				<p class="muted">Suggested routine for wake-up, exercise, meditation, meals, and wind-down.</p>
+				<div id="scheduleContent" class="timeline"></div>
+			</div>
+		</section>
+
+		<!-- Follow-ups -->
+		<section id="followups" class="panel" aria-labelledby="Follow-ups">
+			<div class="card">
+				<h2>Follow-ups</h2>
+				<div class="grid two">
+					<div>
+						<h3>Reminders</h3>
+						<form id="reminderForm" class="inline-form">
+							<input type="text" name="title" placeholder="Drink water, meditate..." required />
+							<input type="datetime-local" name="datetime" required />
+							<button class="btn primary" type="submit">Add</button>
+						</form>
+						<ul id="remindersList" class="list"></ul>
+					</div>
+					<div>
+						<h3>Progress & Feedback</h3>
+						<form id="feedbackForm">
+							<label>Mood today<select name="mood"><option>Calm</option><option>Productive</option><option>Stressed</option><option>Low</option></select></label>
+							<label>Notes<textarea name="feedback" rows="3" placeholder="What went well? What to improve?"></textarea></label>
+							<div class="actions"><button class="btn" type="submit">Save Entry</button></div>
+						</form>
+						<ul id="feedbackList" class="list"></ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Admin -->
+		<section id="admin" class="panel" aria-labelledby="Admin Panel">
+			<div class="card">
+				<h2>Admin Panel</h2>
+				<div id="adminAuth" class="inline-form">
+					<input type="password" id="adminPin" placeholder="Enter admin PIN" />
+					<button class="btn" id="adminLogin">Login</button>
+					<span class="muted">Default PIN: 1234</span>
+				</div>
+				<div id="adminContent" class="hidden">
+					<div class="admin-tools inline-form">
+						<button class="btn" id="exportData">Export Data</button>
+						<label class="btn">
+							<input type="file" id="importFile" accept="application/json" class="sr-only" />Import Data
+						</label>
+						<input type="password" id="newPin" placeholder="New PIN" />
+						<button class="btn" id="changePin">Change PIN</button>
+					</div>
+					<div class="grid two">
+						<div>
+							<h3>Students</h3>
+							<table class="table" id="studentsTable">
+								<thead><tr><th>Name</th><th>Age</th><th>Dosha</th><th>Email</th></tr></thead>
+								<tbody></tbody>
+							</table>
+							<div class="admin-edit card">
+								<h3>Edit Profile</h3>
+								<form id="adminEditProfile" class="grid two">
+									<label>Full Name<input type="text" name="fullName" /></label>
+									<label>Age<input type="number" name="age" min="5" max="100" /></label>
+									<label>Gender<select name="gender"><option></option><option>Female</option><option>Male</option><option>Other</option></select></label>
+									<label>Height (cm)<input type="number" name="heightCm" min="80" max="230"/></label>
+									<label>Weight (kg)<input type="number" name="weightKg" min="20" max="200"/></label>
+									<label>Contact Email<input type="email" name="email"/></label>
+									<label class="full">Health Notes<textarea name="notes" rows="3"></textarea></label>
+									<div class="actions full"><button class="btn primary" type="submit">Save Changes</button></div>
+								</form>
+							</div>
+						</div>
+						<div>
+							<h3>Follow-ups</h3>
+							<table class="table" id="followupsTable">
+								<thead><tr><th>Title</th><th>When</th><th>Status</th><th>Action</th></tr></thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Summary -->
+		<section id="summary" class="panel" aria-labelledby="Summary">
+			<div class="card">
+				<h2>Your Summary</h2>
+				<div class="grid two">
+					<div>
+						<h3>Your Constitution</h3>
+						<div id="summaryConstitution" class="result"><p class="dosha"></p><p class="explain"></p></div>
+						<h3>Daily Schedule</h3>
+						<div id="summarySchedule" class="timeline"></div>
+					</div>
+					<div>
+						<h3>Diet Highlights</h3>
+						<div id="summaryDiet" class="grid three"></div>
+						<h3>Recent Follow-ups</h3>
+						<ul id="summaryFollowups" class="list"></ul>
+						<h3>Recent Feedback</h3>
+						<ul id="summaryFeedback" class="list"></ul>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer class="app-footer">
+		<div>© 2025 AyurPraktik — Vrushabh Sakhiya</div>
+	</footer>
+
+	<script src="assets/data.js"></script>
+	<script src="assets/app.js"></script>
+</body>
+</html>
+
+
